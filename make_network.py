@@ -45,93 +45,94 @@ def add_edges():
     global graph, hacker_set
 
     for i, user_id in enumerate(hacker_set):
+        try:
+            username = graph[user_id]["login"]
+            print(username, i, len(hacker_set))
 
-        username = graph[user_id]["login"]
-        print(username, i, len(hacker_set))
+            in_url = f"https://api.github.com/users/{username}/followers"
+            out_url = f"https://api.github.com/users/{username}/following"
+            star_url = f"https://api.github.com/users/{username}/starred"
+            repo_url = f"https://api.github.com/users/{username}/repos"
+            follower_data = requests.get(in_url, headers=headers).json()
 
-        in_url = f"https://api.github.com/users/{username}/followers"
-        out_url = f"https://api.github.com/users/{username}/following"
-        star_url = f"https://api.github.com/users/{username}/starred"
-        repo_url = f"https://api.github.com/users/{username}/repos"
-        follower_data = requests.get(in_url, headers=headers).json()
-
-        for follower in follower_data:
-            
-            follower_name = follower["login"]
-            follower_id = follower["id"]
-
-            if follower_id not in graph:
-                add_node(follower_name, follower_name)
-            
-            add_edge(user_id, follower_id)
-            # edges.append({"to": user_id, "from": follower_id})
-
-        # following_data = requests.get(out_url, headers=headers).json()
-        # # print(out_url, following_data)
-        # for following in following_data:
-            
-        #     follower_name = following["login"]
-        #     follower_id = following["id"]
-
-        #     # print("name", follower_name)
-
-        #     if follower_id not in graph:
-        #         add_node(follower_name, follower_name)
-            
-        #     add_edge(follower_id, user_id)
-
-        #     if follower_id not in hacker_set:
-        #         one_degree.add(follower_id)
-        #     # edges.append({"from": user_id, "to": follower_id})
-        
-        # star_data = requests.get(star_url, headers=headers).json()
-
-        # for star in star_data:
-        #     if star['owner']['login'] != username:
-        #         if star['owner']['id'] not in graph:
-        #             add_node(star['owner']['login'], star['owner']['login'])
-            
-        #         add_edge(user_id, star['owner']['id'])
-        
-        repo_data = requests.get(repo_url, headers=headers).json()
-
-        for repo in repo_data:
-            
-            repo_name = repo["name"]
-
-            if repo["fork"]:
-                continue
-
-            contrib_url = f"https://api.github.com/repos/{username}/{repo_name}/contributors"
-            # print("here", contrib_url)
-            contrib_data = requests.get(contrib_url, headers=headers)
-
-            if (len(contrib_data.text) == 0):
-                continue
-
-            # print("here2", len(contrib_data.text), contrib_data.url)
-            # .json()
-
-            # print(repo_name, repo["owner"])
-
-            contrib_data = contrib_data.json()
-
-            contrib_ids = set()
-            contrib_ids.add(user_id)
-
-
-
-            for contrib_user in contrib_data:
-                if contrib_user['login'] != username:
-                    if contrib_user['id'] not in graph:
-                        add_node(contrib_user['login'], contrib_user['login'])
+            for follower in follower_data:
                 
-                    contrib_ids.add(contrib_user['id'])
+                follower_name = follower["login"]
+                follower_id = follower["id"]
 
-                    add_edge(user_id, contrib_user['id'])
+                if follower_id not in graph:
+                    add_node(follower_name, follower_name)
+                
+                add_edge(user_id, follower_id)
+
+            # following_data = requests.get(out_url, headers=headers).json()
+            # # print(out_url, following_data)
+            # for following in following_data:
+                
+            #     follower_name = following["login"]
+            #     follower_id = following["id"]
+
+            #     # print("name", follower_name)
+
+            #     if follower_id not in graph:
+            #         add_node(follower_name, follower_name)
+                
+            #     add_edge(follower_id, user_id)
+
+            #     if follower_id not in hacker_set:
+            #         one_degree.add(follower_id)
+            #     # edges.append({"from": user_id, "to": follower_id})
+            
+            # star_data = requests.get(star_url, headers=headers).json()
+
+            # for star in star_data:
+            #     if star['owner']['login'] != username:
+            #         if star['owner']['id'] not in graph:
+            #             add_node(star['owner']['login'], star['owner']['login'])
+                
+            #         add_edge(user_id, star['owner']['id'])
+            
+            repo_data = requests.get(repo_url, headers=headers).json()
+
+            for repo in repo_data:
+                
+                repo_name = repo["name"]
+
+                if repo["fork"]:
+                    continue
+
+                contrib_url = f"https://api.github.com/repos/{username}/{repo_name}/contributors"
+                # print("here", contrib_url)
+                contrib_data = requests.get(contrib_url, headers=headers)
+
+                if (len(contrib_data.text) == 0):
+                    continue
+
+                # print("here2", len(contrib_data.text), contrib_data.url)
+                # .json()
+
+                # print(repo_name, repo["owner"])
+
+                contrib_data = contrib_data.json()
+
+                contrib_ids = set()
+                contrib_ids.add(user_id)
+
+
+
+                for contrib_user in contrib_data:
+                    if contrib_user['login'] != username:
+                        if contrib_user['id'] not in graph:
+                            add_node(contrib_user['login'], contrib_user['login'])
                     
-                    if contrib_user['id'] not in hacker_set:
-                        one_degree.add(contrib_user['id'])
+                        contrib_ids.add(contrib_user['id'])
+
+                        add_edge(user_id, contrib_user['id'])
+                        
+                        if contrib_user['id'] not in hacker_set:
+                            one_degree.add(contrib_user['id'])
+        except:
+            print("ERROR")
     
     for i, user_id in enumerate(one_degree):
 
@@ -146,40 +147,40 @@ def add_edges():
         repo_data = requests.get(repo_url, headers=headers).json()
 
         for repo in repo_data:
-            
-            repo_name = repo["name"]
 
-            if repo["fork"]:
-                continue
+            try:
+                repo_name = repo["name"]
 
-            contrib_url = f"https://api.github.com/repos/{username}/{repo_name}/contributors"
-            # print("here", contrib_url)
-            contrib_data = requests.get(contrib_url, headers=headers)
+                if repo["fork"]:
+                    continue
 
-            if (len(contrib_data.text) == 0):
-                continue
+                contrib_url = f"https://api.github.com/repos/{username}/{repo_name}/contributors"
+                # print("here", contrib_url)
+                contrib_data = requests.get(contrib_url, headers=headers)
 
-            # print("here2", len(contrib_data.text), contrib_data.url)
-            # .json()
+                if (len(contrib_data.text) == 0):
+                    continue
 
-            # print(repo_name, repo["owner"])
+                # print("here2", len(contrib_data.text), contrib_data.url)
+                # .json()
 
-            contrib_data = contrib_data.json()
+                # print(repo_name, repo["owner"])
 
-            contrib_ids = set()
-            contrib_ids.add(user_id)
+                contrib_data = contrib_data.json()
 
-            for contrib_user in contrib_data:
-                try:
-                    if contrib_user['login'] != username:
-                        if contrib_user['id'] not in graph and contrib_user['id'] in hacker_set:
+                contrib_ids = set()
+                contrib_ids.add(user_id)
+
+                for contrib_user in contrib_data:
+                    if contrib_user['login'] != username and contrib_user['id'] in hacker_set:
+                        if contrib_user['id'] not in graph:
                             add_node(contrib_user['login'], contrib_user['login'])
                     
                         contrib_ids.add(contrib_user['id'])
 
                         add_edge(user_id, contrib_user['id'])
-                except:
-                    print("ERROR")
+            except:
+                print("ERROR")
 
                 
 

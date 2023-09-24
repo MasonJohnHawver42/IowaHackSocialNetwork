@@ -10,12 +10,16 @@
   <body>
     <div id="mynetwork"></div>
     <p style="position: absolute; left: 2em; top: 2em; margin: 0px; color:white; width: 10em; z-index: 1000; text-shadow: 2px 2px 4px rgba(0, 0, 0, 1), 2px 2px 8px rgba(0, 0, 0, 1), 2px 2px 12px rgba(0, 0, 0, 1); ;"> 
-        <span style="line-height: 1; font-size: 40pt; font-weight: bold;"> Hack Iowa's Social Network </span>
+        <span style="line-height: 1; font-size: 40pt; font-weight: bold;"> Github Connect: Iowa's HackU Social Network </span>
         <span style="font-size: 10pt; font-weight: bold; white-space: nowrap;"> By: Mason John Hawver </span> <br style="line-height: 2; margin-bottom: 1em;">
         <span style="font-size: 15pt; font-weight: bold; white-space: nowrap;"> Scroll to Zoom </span> 
         <span style="font-size: 15pt; font-weight: bold; white-space: nowrap;"> Drag to Pan </span>
         <span style="font-size: 15pt; font-weight: bold; white-space: nowrap;"> Its all Dynamic </span>
-        <span style="font-size: 15pt; font-weight: bold; white-space: nowrap;"> Play with It </span> <br style="margin-bottom: 1em;">
+        <span style="font-size: 15pt; font-weight: bold; white-space: nowrap;"> Play with It </span>
+        <span style="font-size: 15pt; font-weight: bold; white-space: nowrap;"> And Remember, </span>
+        <span style="font-size: 15pt; font-weight: bold; white-space: nowrap;"> Make Connections! </span> <br style="margin-bottom: 1em;">
+
+
         
         <span id="selected" style="display: none;">
         <span style="font-size: 12pt; font-weight: bold; white-space: nowrap;"> 
@@ -35,20 +39,20 @@
           
     </span>
 
-        <span style="font-size: 12pt; font-weight: bold; white-space: wrap;"> And Thanks to Everyone that filled out my Spreadsheet </span>
-        
-        <br style="margin-bottom: 1em;">
+    
+    <span style="font-size: 12pt; font-weight: bold; white-space: wrap;"> And Thanks to Everyone that filled out my Spreadsheet, You are the Foundation of this Entire Hack </span>
+    <br style="margin-bottom: 1em;">
 
-        <span style="white-space: nowrap;">
-            <input type="text" placeholder="..." style="width: 9em;" id="myInput">
-            <input type="button" value="Find" onclick="getText()">
-        </span>
+    <span style="white-space: nowrap;">
+        <input type="text" placeholder="Search Your Name!" style="width: 9em;" id="myInput">
+        <input type="button" value="Find" onclick="getText()">
+    </span>
         
     </p>
     <p id="loading" style="margin-left: 18em; width: calc(100% - 15em); text-align: center; color: white; position: absolute; top: calc(50% - 20pt);">
         <!-- <span style="font-size: 40pt; font-weight: bold;"> Hack Iowa: Social Network </span> <br> -->
         <!-- <span style="font-size: 30pt; font-weight: bold;"> by: Mason John Hawver </span> <br> -->
-        <span style="font-size: 20pt; font-weight: bold;"> Loading ... (Trust Me it's Worth it) <span>
+        <span style="font-size: 20pt; font-weight: bold;" id="progress"> Loading ... (Trust Me it's Worth it) <span>
     </p>
   </body>
 </html>
