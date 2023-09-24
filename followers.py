@@ -1,12 +1,26 @@
 import requests
 from pprint import pprint
 
-key = "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"
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+key = os.environ.get("KEY")
+
+print(key)
 username = "MasonJohnHawver42"
 
-url = "https://api.github.com/users/{}/followers".format(username)
+headers = {'Authorization': 'token ' + key}
 
-data = requests.get(url).json()
+url = "https://api.github.com/users/{}/starred".format(username)
 
-for follower in data:
-    pprint(follower["login"])
+# url = f"https://api.github.com/users/{username}"
+#url = f"https://api.github.com/users/{username}/repos"
+url = "https://api.github.com/repos/MasonJohnHawver42/emscripten"
+
+data = requests.get(url, headers=headers).json()
+
+pprint(data)
+
+# for follower in data:
+#     pprint(follower)
