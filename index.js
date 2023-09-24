@@ -52,7 +52,7 @@ data = new Map(); data.set(33504840, {name: "Mason Hawver", username: "MasonJohn
 
   network.on("stabilizationProgress", function(ctx)
   {
-    var states = ["Fetching Data ...", "Creating Graph ...", "Stabalizing ...", "Almost Done ..."];
+    var states = ["Fetching Data ...", "Creating Graph ...", "Stabilizing ...", "Almost Done ..."];
     var state = states[Math.floor(ctx["iterations"] / ctx["total"] * states.length)];
     document.getElementById("progress").innerText = `${state}`
   });
